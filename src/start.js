@@ -1,13 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import Registration from "./registration";
+import NetworkHome from "./networkhome";
+import Background from "./backgroundexperience";
 
-ReactDOM.render(
-    <HelloWorld />,
-    document.querySelector('main')
-);
+let element = <Registration />;
 
-function HelloWorld() {
-    return (
-        <div>Hello, World!</div>
-    );
+if (location.pathname != "/welcome") {
+    element = <NetworkHome />;
 }
+
+ReactDOM.render(element, document.querySelector("main"));
