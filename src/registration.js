@@ -39,9 +39,9 @@ export default class registration extends React.Component {
     render() {
         return (
             <div>
-                <div>
+                <div id="registrationbar">
                     {this.state.error && <div className="error"> OOps!</div>}
-                    <form id="registration">
+                    <form id="registrationform">
                         <input
                             id="firstname"
                             name="firstname"
@@ -64,10 +64,10 @@ export default class registration extends React.Component {
                             onChange={e => this.handleChange(e.target)}
                         />
                         <button onClick={e => this.submit(e)}>register</button>
-                        <button onClick={e => this.login(e)}>
-                            already a user? log in
-                        </button>
                     </form>
+                    <button onClick={e => this.login(e)}>
+                        already a user? log in
+                    </button>
                 </div>
             </div>
         );

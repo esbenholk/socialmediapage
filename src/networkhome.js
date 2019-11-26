@@ -1,5 +1,5 @@
 import React from "react";
-// import Background from "./backgroundexperience";
+import Background from "./backgroundexperience";
 
 export default class NetworkHome extends React.Component {
     constructor(props) {
