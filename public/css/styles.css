@@ -32,5 +32,21 @@ main {
 }
 
 #registrationform input {
+    text-align: right;
     margin: 10px;
+    border: none;
+    background: transparent;
+    border-bottom: 2px solid hotpink;
+    color: hotpink;
+}
+
+#registrationform button {
+    border: none;
+    background: transparent;
+    color: white;
+    margin-top: 20px;
+}
+
+#registrationform button:hover {
+    color: yellow;
 }

@@ -60,14 +60,16 @@ export default class registration extends React.Component {
                         />
                         <input
                             name="password"
+                            type="password"
                             placeholder="password"
                             onChange={e => this.handleChange(e.target)}
                         />
                         <button onClick={e => this.submit(e)}>register</button>
+
+                        <button onClick={e => this.login(e)}>
+                            already a user? log in
+                        </button>
                     </form>
-                    <button onClick={e => this.login(e)}>
-                        already a user? log in
-                    </button>
                 </div>
             </div>
         );
