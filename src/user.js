@@ -6,6 +6,16 @@ export default class User extends React.Component {
         super(props);
         this.state = {};
     }
+    componentDidMount() {
+        this.getUserDetails();
+    }
+    openAccountMenu() {
+        if (document.getElementById("userprofile").classList.contains("on")) {
+            document.getElementById("userprofile").classList.remove("on");
+        } else {
+            document.getElementById("userprofile").classList.add("on");
+        }
+    }
     getUserDetails() {
         axios
             .get("/user")
@@ -21,15 +31,13 @@ export default class User extends React.Component {
                 console.log("didnt get user dewtails");
             });
     }
-    componentDidMount() {
-        this.getUserDetails();
-    }
-    openAccountMenu() {
-        if (document.getElementById("userprofile").classList.contains("on")) {
-            document.getElementById("userprofile").classList.remove("on");
-        } else {
-            document.getElementById("userprofile").classList.add("on");
-        }
+    logout() {
+        axios
+            .post("/logout")
+            .then(({ data }) => {
+                location.replace("/");
+            })
+            .catch("unable to log out");
     }
     render() {
         return (
@@ -45,6 +53,9 @@ export default class User extends React.Component {
                     <p>{this.state.name}</p>
                     <p>{this.state.email}</p>
                     <img src={this.state.image} />
+                    <button id="logout" onClick={e => this.logout(e)}>
+                        log out
+                    </button>
                 </div>
             </div>
         );

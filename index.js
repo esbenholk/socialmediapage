@@ -71,12 +71,7 @@ app.post("/login", (req, res) => {
                 .then(match => {
                     console.log(match);
                     if (match == true) {
-                        console.log("login succeful:", userDetails.rows[0]);
                         req.session.userId = userDetails.rows[0].id;
-                        console.log(
-                            "req.session through log in",
-                            req.session.userId
-                        );
                         res.json({
                             success: true,
                             name:
@@ -88,6 +83,12 @@ app.post("/login", (req, res) => {
                 })
                 .catch(err => console.log("fail in compare"));
         });
+});
+
+app.post("/logout", (req, res) => {
+    console.log("loggin out");
+    req.session = null;
+    res.json({ logout: true });
 });
 
 app.get("/welcome", function(req, res) {

@@ -108,3 +108,12 @@ main {
 #userprofile.on {
     transform: translateX(0%);
 }
+
+#logout {
+    position: absolute;
+    font-size: 15px;
+    bottom: 50px;
+    border: none;
+    background: transparent;
+    color: white;
+}
