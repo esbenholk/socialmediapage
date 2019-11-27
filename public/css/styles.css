@@ -1,6 +1,22 @@
+@keyframes gradientAnimator {
+    0% {
+        background-position: 34% 0%;
+    }
+    50% {
+        background-position: 67% 100%;
+    }
+    100% {
+        background-position: 34% 0%;
+    }
+}
+
 body {
     box-sizing: border-box;
     margin: 0;
+    background: linear-gradient(153deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
+    background-size: 400% 400%;
+
+    animation: gradientAnimator 40s ease infinite;
 }
 main {
     width: 100%;
@@ -12,6 +28,7 @@ main {
     bottom: 0;
     z-index: 0;
 }
+
 #canvas3d {
     position: fixed;
     top: 0;
@@ -21,17 +38,20 @@ main {
     z-index: 0;
 }
 
-#registrationbar {
+.registrationloginbar {
     position: fixed;
     right: 0;
     top: 0;
+    height: 100%;
+    font-size: 14px;
 }
-#registrationform {
+.registrationlogin {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
-#registrationform input {
+.registrationlogin input {
     text-align: right;
     margin: 10px;
     border: none;
@@ -40,13 +60,51 @@ main {
     color: hotpink;
 }
 
-#registrationform button {
+.registrationlogin button {
     border: none;
     background: transparent;
     color: white;
     margin-top: 20px;
 }
-
-#registrationform button:hover {
+.registrationlogin button:hover {
     color: yellow;
+}
+
+.loginswitchregistration {
+    position: absolute;
+    bottom: 10px;
+    margin: 10px;
+    text-decoration: none;
+    color: white;
+    text-align: center;
+}
+.loginswitchregistration:hover {
+    color: yellow;
+}
+
+#userprofile {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 130px;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translateX(100%);
+    transition-duration: 4s;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 10px;
+}
+#accountMenuTrigger {
+    position: absolute;
+    left: -40px;
+    writing-mode: vertical-lr;
+    text-orientation: sideways;
+    font-size: 15px;
+    color: white;
+}
+
+#userprofile.on {
+    transform: translateX(0%);
 }

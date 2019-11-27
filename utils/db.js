@@ -6,7 +6,15 @@ var database = spicedPg(
 
 module.exports.register = function(firstname, lastname, email, hashedPassword) {
     return database.query(
-        `INSERT INTO users (firstname, lastname, email, password) VALUES ($1, $2, $3, $4) RETURNING id`,
+        `INSERT INTO users (firstname, lastname, email, password) VALUES ($1, $2, $3, $4) RETURNING *`,
         [firstname, lastname, email, hashedPassword]
     );
+};
+
+module.exports.getUserDetailsFromEmail = function(email) {
+    return database.query(`SELECT * FROM users WHERE email=$1`, [email]);
+};
+
+module.exports.getUserDetailsFromId = function(id) {
+    return database.query(`SELECT * FROM users WHERE id=$1`, [id]);
 };

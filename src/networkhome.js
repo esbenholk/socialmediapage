@@ -1,5 +1,7 @@
 import React from "react";
-import Background from "./backgroundexperience";
+import Background from "../public/backgroundexperience";
+import User from "./user";
+import axios from "./axios";
 
 export default class NetworkHome extends React.Component {
     constructor(props) {
@@ -9,7 +11,7 @@ export default class NetworkHome extends React.Component {
     render() {
         return (
             <div>
-                <h1> u r logged in </h1>
+                <User />
             </div>
         );
     }

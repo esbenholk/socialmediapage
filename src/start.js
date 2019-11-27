@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Registration from "./registration";
+import Welcome from "./welcome";
 import NetworkHome from "./networkhome";
 
-let element = <Registration />;
+let element = <Welcome />;
 
 if (location.pathname != "/welcome") {
     element = <NetworkHome />;

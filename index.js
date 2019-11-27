@@ -4,8 +4,7 @@ const compression = require("compression");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./utils/bcrypt");
 const databaseActions = require("./utils/db");
-// const csurf = require("csurf");
-// app.use(csurf);
+const csurf = require("csurf");
 
 app.use(express.static("./public"));
 app.use(express.static("./utils"));
@@ -31,6 +30,12 @@ app.use(
     })
 );
 
+app.use(csurf());
+app.use(function(req, res, next) {
+    res.cookie("customCSURFtoken", req.csrfToken());
+    next();
+});
+
 app.post("/register", (req, res) => {
     console.log("react axios post-req to server:", req.body);
     hash(req.body.password).then(hashedPassword => {
@@ -44,9 +49,10 @@ app.post("/register", (req, res) => {
             .then(result => {
                 console.log("registration succeful:", result);
                 req.session.userId = result.rows[0].id;
-                console.log("coookie", req.session.userId);
                 res.json({
-                    success: true
+                    success: true,
+                    name:
+                        result.rows[0].firstname + " " + result.rows[0].lastname
                 });
             })
             .catch(() => {
@@ -57,6 +63,32 @@ app.post("/register", (req, res) => {
             });
     });
 });
+app.post("/login", (req, res) => {
+    databaseActions
+        .getUserDetailsFromEmail(req.body.email)
+        .then(userDetails => {
+            compare(req.body.password, userDetails.rows[0].password)
+                .then(match => {
+                    console.log(match);
+                    if (match == true) {
+                        console.log("login succeful:", userDetails.rows[0]);
+                        req.session.userId = userDetails.rows[0].id;
+                        console.log(
+                            "req.session through log in",
+                            req.session.userId
+                        );
+                        res.json({
+                            success: true,
+                            name:
+                                userDetails.rows[0].firstname +
+                                userDetails.rows[0].lastname,
+                            email: userDetails.rows[0].email
+                        });
+                    }
+                })
+                .catch(err => console.log("fail in compare"));
+        });
+});
 
 app.get("/welcome", function(req, res) {
     if (req.session.userId) {
@@ -65,7 +97,22 @@ app.get("/welcome", function(req, res) {
         res.sendFile(__dirname + "/index.html");
     }
 });
-
+app.get("/user", (req, res) => {
+    console.log("req.session.userId", req.session.userId);
+    databaseActions
+        .getUserDetailsFromId(req.session.userId)
+        .then(results => {
+            console.log("got userdetails", results.rows[0]);
+            res.json({
+                success: true,
+                name:
+                    results.rows[0].firstname + " " + results.rows[0].firstname,
+                email: results.rows[0].email,
+                image: results.rows[0].imageurl
+            });
+        })
+        .catch(() => console.log("no results from user route"));
+});
 app.get("*", function(req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
