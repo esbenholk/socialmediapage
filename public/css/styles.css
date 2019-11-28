@@ -9,7 +9,17 @@
         background-position: 34% 0%;
     }
 }
-
+@keyframes color-change {
+    0% {
+        color: #c100ff;
+    }
+    50% {
+        color: #00ffc4;
+    }
+    100% {
+        color: #c100ff;
+    }
+}
 body {
     box-sizing: border-box;
     margin: 0;
@@ -99,10 +109,34 @@ main {
 #accountMenuTrigger {
     position: absolute;
     left: -40px;
+    top: 125px;
     writing-mode: vertical-lr;
     text-orientation: sideways;
     font-size: 15px;
-    color: white;
+    animation: color-change 30s infinite;
+}
+#userdetails {
+    position: absolute;
+    top: 150px;
+    animation: color-change 30s infinite;
+}
+#userdetails li {
+    list-style-type: none;
+}
+
+#profilepic {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    transition-duration: 4s;
+    transform-origin: top right;
+}
+#profilepic.on {
+    transform: scale(1.2);
 }
 
 #userprofile.on {
@@ -115,5 +149,5 @@ main {
     bottom: 50px;
     border: none;
     background: transparent;
-    color: white;
+    animation: color-change 30s infinite;
 }

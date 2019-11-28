@@ -5,6 +5,11 @@ const cookieSession = require("cookie-session");
 const { hash, compare } = require("./utils/bcrypt");
 const databaseActions = require("./utils/db");
 const csurf = require("csurf");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+const s3 = require("./s3");
+const { s3Url } = require("./config.json");
 
 app.use(express.static("./public"));
 app.use(express.static("./utils"));
@@ -29,11 +34,28 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
-
 app.use(csurf());
 app.use(function(req, res, next) {
     res.cookie("customCSURFtoken", req.csrfToken());
     next();
+});
+
+const diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
 });
 
 app.post("/register", (req, res) => {
@@ -89,6 +111,21 @@ app.post("/logout", (req, res) => {
     console.log("loggin out");
     req.session = null;
     res.json({ logout: true });
+});
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    console.log("imageupload", req.body);
+    const imageURL = `${s3Url}/${req.file.filename}`;
+    console.log("this is the image url address created with aws", imageURL);
+    databaseActions
+        .uploadProfilePic(imageURL, req.session.userId)
+        .then(results => {
+            console.log("imageurl uploaded in database", results);
+            res.json({
+                success: true,
+                image: results.rows[0].imageurl
+            });
+        })
+        .catch("imageurl not uploaded to database");
 });
 
 app.get("/welcome", function(req, res) {

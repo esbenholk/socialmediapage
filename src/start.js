@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
-import NetworkHome from "./networkhome";
+import App from "./app";
 
 let element = <Welcome />;
 
 if (location.pathname != "/welcome") {
-    element = <NetworkHome />;
+    element = <App />;
 }
 
 ReactDOM.render(element, document.querySelector("main"));

@@ -18,3 +18,10 @@ module.exports.getUserDetailsFromEmail = function(email) {
 module.exports.getUserDetailsFromId = function(id) {
     return database.query(`SELECT * FROM users WHERE id=$1`, [id]);
 };
+
+module.exports.uploadProfilePic = function(imageURL, id) {
+    return database.query(
+        `UPDATE users SET imageUrl=$1 WHERE id=$2 RETURNING *`,
+        [imageURL, id]
+    );
+};

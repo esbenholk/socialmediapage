@@ -5,31 +5,16 @@ export default class User extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-    }
-    componentDidMount() {
-        this.getUserDetails();
+        console.log("props passed to user component", this);
     }
     openAccountMenu() {
         if (document.getElementById("userprofile").classList.contains("on")) {
             document.getElementById("userprofile").classList.remove("on");
+            document.getElementById("profilepic").classList.remove("on");
         } else {
             document.getElementById("userprofile").classList.add("on");
+            document.getElementById("profilepic").classList.add("on");
         }
-    }
-    getUserDetails() {
-        axios
-            .get("/user")
-            .then(userDetails => {
-                this.setState({
-                    name: userDetails.data.name,
-                    email: userDetails.data.email,
-                    image: userDetails.data.image
-                });
-                console.log("state from user js", this.state);
-            })
-            .catch(err => {
-                console.log("didnt get user dewtails");
-            });
     }
     logout() {
         axios
@@ -50,9 +35,18 @@ export default class User extends React.Component {
                         {" "}
                         account details{" "}
                     </h1>
-                    <p>{this.state.name}</p>
-                    <p>{this.state.email}</p>
-                    <img src={this.state.image} />
+                    <div id="userdetails">
+                        <li>{this.props.name} </li>
+                        <li> @ {this.props.email} </li>
+                        <li> bio: {this.props.bio} </li>
+                        <button
+                            id="editProfile"
+                            onClick={e => this.props.toggleProfileUpdate(e)}
+                        >
+                            edit profile information
+                        </button>
+                    </div>
+
                     <button id="logout" onClick={e => this.logout(e)}>
                         log out
                     </button>
