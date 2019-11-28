@@ -20,13 +20,24 @@
         color: #c100ff;
     }
 }
+@keyframes imageResizer {
+    100% {
+        top: 25%;
+        right: 50%;
+        transform: scale(3) translateX(25%);
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 body {
     box-sizing: border-box;
     margin: 0;
-    background: linear-gradient(153deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
-    background-size: 400% 400%;
-
-    animation: gradientAnimator 40s ease infinite;
 }
 main {
     width: 100%;
@@ -37,15 +48,17 @@ main {
     right: 0;
     bottom: 0;
     z-index: 0;
+    box-sizing: border-box;
+    margin: 0;
 }
 
-#canvas3d {
+canvas {
     position: fixed;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
+    background: linear-gradient(153deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
+    background-size: 400% 400%;
+    animation: gradientAnimator 40s ease infinite;
+    z-index: -999999999;
 }
 
 .registrationloginbar {
@@ -73,7 +86,7 @@ main {
 .registrationlogin button {
     border: none;
     background: transparent;
-    color: white;
+    animation: color-change 30s infinite;
     margin-top: 20px;
 }
 .registrationlogin button:hover {
@@ -85,7 +98,7 @@ main {
     bottom: 10px;
     margin: 10px;
     text-decoration: none;
-    color: white;
+    animation: color-change 30s infinite;
     text-align: center;
 }
 .loginswitchregistration:hover {
@@ -128,7 +141,7 @@ main {
     height: 100px;
     width: 100px;
     object-fit: cover;
-
+    z-index: 999999999;
     position: fixed;
     top: 10px;
     right: 10px;
@@ -136,11 +149,51 @@ main {
     transform-origin: top right;
 }
 #profilepic.on {
-    transform: scale(1.2);
+    transform: scale(1.25);
 }
-
 #userprofile.on {
     transform: translateX(0%);
+}
+#editProfile {
+    position: absolute;
+    font-size: 15px;
+    bottom: 70px;
+    border: none;
+    background: transparent;
+    animation: color-change 30s infinite;
+}
+
+#uploaderfunctionality {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 25%;
+    right: 25%;
+    width: 150px;
+    height: 295px;
+    padding: 5px;
+    background: linear-gradient(153deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
+    background-size: 400% 400%;
+    animation: gradientAnimator 40s ease infinite, fadeIn 6s ease 1;
+    animation-fill-mode: forwards;
+}
+.uploaderfunctions {
+    width: 100%;
+    border: none;
+    animation: color-change 30s infinite;
+}
+
+#uploaderProfilePic {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    transition-duration: 4s;
+    transform-origin: top right;
+    animation: imageResizer 4s ease 1;
+    animation-fill-mode: forwards;
 }
 
 #logout {

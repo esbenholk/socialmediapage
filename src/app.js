@@ -1,10 +1,10 @@
 import React from "react";
-import Background from "../public/backgroundexperience";
 import User from "./user";
 import axios from "./axios";
 import { ProfilePic } from "./profilepic";
 import Uploader from "./uploader";
 import ProfileUpdater from "./profileupdater";
+import ThreeDRender from "./backgroundexperience";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -32,8 +32,8 @@ export default class App extends React.Component {
                     bio: userDetails.data.bio
                 });
             })
-            .catch(err => {
-                console.log("didnt get user dewtails");
+            .catch(() => {
+                console.log("didnt get user details");
             });
     }
     toggleUpload() {
@@ -83,8 +83,10 @@ export default class App extends React.Component {
                     imageurl={this.state.image}
                     toggleUpload={this.toggleUpload}
                 />
+                <ThreeDRender imageurl={this.state.image} />
                 {this.state.uploaderIsVisible && (
                     <Uploader
+                        imageurl={this.state.image}
                         upload={this.upload}
                         handleChange={this.handleChange}
                     />
@@ -94,7 +96,5 @@ export default class App extends React.Component {
         );
     }
 }
-
-// <h1 onClick={this.toggleUpload}> upload image </h1>
 
 // <Background />

@@ -39,14 +39,13 @@ export default class User extends React.Component {
                         <li>{this.props.name} </li>
                         <li> @ {this.props.email} </li>
                         <li> bio: {this.props.bio} </li>
-                        <button
-                            id="editProfile"
-                            onClick={e => this.props.toggleProfileUpdate(e)}
-                        >
-                            edit profile information
-                        </button>
                     </div>
-
+                    <button
+                        id="editProfile"
+                        onClick={e => this.props.toggleProfileUpdate(e)}
+                    >
+                        edit profile
+                    </button>
                     <button id="logout" onClick={e => this.logout(e)}>
                         log out
                     </button>
