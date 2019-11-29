@@ -3,7 +3,6 @@ import User from "./user";
 import axios from "./axios";
 import { ProfilePic } from "./profilepic";
 import Uploader from "./uploader";
-import ProfileUpdater from "./profileupdater";
 import ThreeDRender from "./backgroundexperience";
 
 export default class App extends React.Component {
@@ -16,7 +15,7 @@ export default class App extends React.Component {
         this.toggleUpload = this.toggleUpload.bind(this);
         this.upload = this.upload.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.toggleProfileUpdate = this.toggleProfileUpdate.bind(this);
+        this.updateBio = this.updateBio.bind(this);
     }
     componentDidMount() {
         this.getUserDetails();
@@ -25,6 +24,7 @@ export default class App extends React.Component {
         axios
             .get("/user")
             .then(userDetails => {
+                console.log("fetching bio", userDetails.data.bio);
                 this.setState({
                     name: userDetails.data.name,
                     email: userDetails.data.email,
@@ -39,14 +39,12 @@ export default class App extends React.Component {
     toggleUpload() {
         this.setState({ uploaderIsVisible: !this.state.uploaderIsVisible });
     }
-    toggleProfileUpdate() {
-        this.setState({
-            profileUpdateIsVisible: !this.state.profileUpdateIsVisible
-        });
-    }
     handleChange(e) {
         console.log("file", e.target.files[0]);
         this.setState({ file: e.target.files[0] });
+    }
+    updateBio(newBio) {
+        this.setState({ bio: newBio });
     }
     upload() {
         var fd = new FormData();
@@ -71,14 +69,18 @@ export default class App extends React.Component {
             });
     }
     render() {
+        console.log(this.state);
         return (
             <div>
-                <User
-                    name={this.state.name}
-                    email={this.state.email}
-                    bio={this.state.bio}
-                    toggleProfileUpdate={this.toggleProfileUpdate}
-                />
+                {this.state.name && (
+                    <User
+                        name={this.state.name}
+                        email={this.state.email}
+                        bio={this.state.bio}
+                        toggleProfileUpdate={this.toggleProfileUpdate}
+                        updateBio={this.updateBio}
+                    />
+                )}
                 <ProfilePic
                     imageurl={this.state.image}
                     toggleUpload={this.toggleUpload}
@@ -91,7 +93,6 @@ export default class App extends React.Component {
                         handleChange={this.handleChange}
                     />
                 )}
-                {this.state.profileUpdateIsVisible && <ProfileUpdater />}
             </div>
         );
     }

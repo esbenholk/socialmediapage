@@ -5,19 +5,34 @@ export default class ProfileUpdater extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.updateBio = this.updateBio.bind(this);
+    }
+    updateBio() {
+        axios
+            .post("/updateBio", {
+                bio: this.state.bio
+            })
+            .then(userdetails => {
+                this.props.updateBio(userdetails.data.bio);
+                this.props.toggleProfileUpdate();
+            });
+    }
+    handleChange(inputElement) {
+        this.setState({
+            [inputElement.name]: inputElement.value
+        });
     }
     render() {
         return (
             <div id="profileUpdater">
-                <h1> update profile </h1>
-                <input
-                    id="file"
-                    onChange={e => this.props.handleChange(e)}
-                    type="file"
-                    name="file"
-                    accept="image/*"
+                <textarea
+                    id="bio"
+                    name="bio"
+                    type="text"
+                    placeholder="click here to edit your bio"
+                    onChange={e => this.handleChange(e.target)}
                 />
-                <button onClick={this.props.upload}> upload </button>
+                <button onClick={this.updateBio}> save </button>
             </div>
         );
     }

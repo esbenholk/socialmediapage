@@ -1,5 +1,8 @@
 import React from "react";
-let scene, camera, renderer, cube, url;
+const THREE = require("three");
+require("../OrbitControls");
+
+let scene, camera, renderer, cube, url, controls;
 export default class ThreeDRender extends React.Component {
     constructor(props) {
         super(props);
@@ -44,10 +47,9 @@ export default class ThreeDRender extends React.Component {
         light.castShadow = true;
 
         cube = new THREE.Mesh(geometry, material, 100, 100, 100);
-
         scene.add(cube);
-
         scene.add(light);
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
         camera.position.z = 10;
         document.body.appendChild(renderer.domElement);
     }
@@ -57,6 +59,7 @@ export default class ThreeDRender extends React.Component {
         renderer.setSize(window.innerWidth, window.innerHeight);
     }
     animate() {
+        controls.update();
         requestAnimationFrame(this.animate);
         cube.rotation.x += 0.01;
         cube.rotation.y += 0.01;

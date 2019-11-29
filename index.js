@@ -128,6 +128,19 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         .catch("imageurl not uploaded to database");
 });
 
+app.post("/updatebio", (req, res) => {
+    databaseActions
+        .updateBio(req.body.bio, req.session.userId)
+        .then(results => {
+            res.json({
+                success: true,
+                name: results.rows[0].firstname + results.rows[0].lastname,
+                email: results.rows[0].email,
+                bio: results.rows[0].bio
+            });
+        });
+});
+
 app.get("/welcome", function(req, res) {
     if (req.session.userId) {
         res.redirect("/");
@@ -146,7 +159,8 @@ app.get("/user", (req, res) => {
                 name:
                     results.rows[0].firstname + " " + results.rows[0].firstname,
                 email: results.rows[0].email,
-                image: results.rows[0].imageurl
+                image: results.rows[0].imageurl,
+                bio: results.rows[0].bio
             });
         })
         .catch(() => console.log("no results from user route"));

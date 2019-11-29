@@ -132,6 +132,7 @@ canvas {
     position: absolute;
     top: 150px;
     animation: color-change 30s infinite;
+    max-width: 120px;
 }
 #userdetails li {
     list-style-type: none;
@@ -195,7 +196,16 @@ canvas {
     animation: imageResizer 4s ease 1;
     animation-fill-mode: forwards;
 }
-
+#profileUpdater {
+    position: absolute;
+    top: 200px;
+    margin-top: 5px;
+}
+#profileUpdater textarea {
+    height: 100px;
+    background: Transparent;
+    border: none;
+}
 #logout {
     position: absolute;
     font-size: 15px;
