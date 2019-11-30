@@ -158,8 +158,11 @@ canvas {
 #editProfile {
     position: absolute;
     font-size: 15px;
-    bottom: 70px;
+    text-align: left;
+    /* bottom: 70px; */
     border: none;
+    margin: 0;
+    padding: 0;
     background: transparent;
     animation: color-change 30s infinite;
 }
@@ -197,14 +200,27 @@ canvas {
     animation-fill-mode: forwards;
 }
 #profileUpdater {
-    position: absolute;
-    top: 200px;
+    /* position: absolute;
+    top: 200px; */
     margin-top: 5px;
+    margin-bottom: 5px;
 }
 #profileUpdater textarea {
     height: 100px;
     background: Transparent;
     border: none;
+}
+#profileUpdater button {
+    background: Transparent;
+    border: none;
+    animation: color-change 30s infinite;
+    font-size: 15px;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+#profileUpdater button:hover {
+    color: yellow;
 }
 #logout {
     position: absolute;

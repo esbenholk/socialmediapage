@@ -15,6 +15,7 @@ export default class ProfileUpdater extends React.Component {
             .then(userdetails => {
                 this.props.updateBio(userdetails.data.bio);
                 this.props.toggleProfileUpdate();
+                this.props.setButtonText();
             });
     }
     handleChange(inputElement) {

@@ -8,8 +8,16 @@ export default class User extends React.Component {
         this.state = {};
         console.log("props passed to user component", this);
         this.toggleProfileUpdate = this.toggleProfileUpdate.bind(this);
+        this.setButtonText = this.setButtonText.bind(this);
     }
     componentDidMount() {
+        if (this.props.bio) {
+            this.setState({ buttonText: "edit" });
+        } else {
+            this.setState({ buttonText: "Add Bio" });
+        }
+    }
+    setButtonText() {
         if (this.props.bio) {
             this.setState({ buttonText: "edit" });
         } else {
@@ -52,24 +60,33 @@ export default class User extends React.Component {
                     <div id="userdetails">
                         <li>{this.props.name} </li>
                         <li> @ {this.props.email} </li>
-                        <li> {this.props.bio} </li>
+                        <li>
+                            {!this.state.profileUpdateIsVisible && (
+                                <div>
+                                    <p> bio: {this.props.bio}</p>
+                                    <button
+                                        id="editProfile"
+                                        onClick={e =>
+                                            this.toggleProfileUpdate(e)
+                                        }
+                                    >
+                                        {this.state.buttonText}
+                                    </button>
+                                </div>
+                            )}
+                        </li>
+                        {this.state.profileUpdateIsVisible && (
+                            <ProfileUpdater
+                                toggleProfileUpdate={this.toggleProfileUpdate}
+                                updateBio={this.props.updateBio}
+                                setButtonText={this.setButtonText}
+                            />
+                        )}
                     </div>
 
-                    <button
-                        id="editProfile"
-                        onClick={e => this.toggleProfileUpdate(e)}
-                    >
-                        {this.state.buttonText}
-                    </button>
                     <button id="logout" onClick={e => this.logout(e)}>
                         log out
                     </button>
-                    {this.state.profileUpdateIsVisible && (
-                        <ProfileUpdater
-                            toggleProfileUpdate={this.toggleProfileUpdate}
-                            updateBio={this.props.updateBio}
-                        />
-                    )}
                 </div>
             </div>
         );
