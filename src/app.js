@@ -4,6 +4,8 @@ import axios from "./axios";
 import { ProfilePic } from "./profilepic";
 import Uploader from "./uploader";
 import ThreeDRender from "./backgroundexperience";
+import { BrowserRouter, Route } from "react-router-dom";
+import { OtherUser } from "./otheruser";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -22,7 +24,7 @@ export default class App extends React.Component {
     }
     getUserDetails() {
         axios
-            .get("/user")
+            .get("/user.json")
             .then(userDetails => {
                 console.log("fetching bio", userDetails.data.bio);
                 this.setState({
@@ -37,7 +39,9 @@ export default class App extends React.Component {
             });
     }
     toggleUpload() {
-        this.setState({ uploaderIsVisible: !this.state.uploaderIsVisible });
+        this.setState({
+            uploaderIsVisible: !this.state.uploaderIsVisible
+        });
     }
     handleChange(e) {
         console.log("file", e.target.files[0]);
@@ -54,7 +58,10 @@ export default class App extends React.Component {
             .then(({ data }) => {
                 if (data.success) {
                     console.log("data", data);
-                    this.setState({ image: data.image });
+                    this.setState({
+                        image: data.image,
+                        uploaderIsVisible: !this.state.uploaderIsVisible
+                    });
                 } else {
                     this.setState({
                         error: true
@@ -69,32 +76,55 @@ export default class App extends React.Component {
             });
     }
     render() {
-        console.log(this.state);
-        return (
-            <div>
-                {this.state.name && (
-                    <User
-                        name={this.state.name}
-                        email={this.state.email}
-                        bio={this.state.bio}
-                        toggleProfileUpdate={this.toggleProfileUpdate}
-                        updateBio={this.updateBio}
-                    />
-                )}
-                <ProfilePic
-                    imageurl={this.state.image}
-                    toggleUpload={this.toggleUpload}
-                />
-                <ThreeDRender imageurl={this.state.image} />
-                {this.state.uploaderIsVisible && (
-                    <Uploader
-                        imageurl={this.state.image}
-                        upload={this.upload}
-                        handleChange={this.handleChange}
-                    />
-                )}
-            </div>
-        );
+        if (!this.state.name) {
+            return null;
+        } else {
+            return (
+                <div>
+                    <BrowserRouter>
+                        <div>
+                            <Route
+                                render={props => (
+                                    <ProfilePic
+                                        imageurl={this.state.image}
+                                        toggleUpload={this.toggleUpload}
+                                        history={props.history}
+                                    />
+                                )}
+                            />
+                            <User
+                                name={this.state.name}
+                                email={this.state.email}
+                                bio={this.state.bio}
+                                toggleProfileUpdate={this.toggleProfileUpdate}
+                                updateBio={this.updateBio}
+                            />
+                            <ThreeDRender imageurl={this.state.image} />
+                            {this.state.uploaderIsVisible && (
+                                <Uploader
+                                    imageurl={this.state.image}
+                                    upload={this.upload}
+                                    handleChange={this.handleChange}
+                                    toggleUpload={this.toggleUpload}
+                                />
+                            )}
+                            <Route
+                                exact
+                                path="/"
+                                render={() => (
+                                    <div>
+                                        <ThreeDRender
+                                            imageurl={this.state.image}
+                                        />
+                                    </div>
+                                )}
+                            />
+                            <Route path="/user/:id" component={OtherUser} />;
+                        </div>
+                    </BrowserRouter>
+                </div>
+            );
+        }
     }
 }
 

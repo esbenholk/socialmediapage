@@ -7,8 +7,9 @@ export default class Uploader extends React.Component {
     }
     render() {
         return (
-            <div id="uploader">
-                <img src={this.props.imageurl} id="uploaderProfilePic" />
+            <div className="focusSquare">
+                <div id="line2uploaderfunciotnaility"></div>
+                <img id="uploaderProfilePic" src={this.props.imageurl} />
                 <div id="uploaderfunctionality">
                     <input
                         className="uploaderfunctions"
@@ -30,3 +31,5 @@ export default class Uploader extends React.Component {
         );
     }
 }
+
+//

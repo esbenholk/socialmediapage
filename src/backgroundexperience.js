@@ -1,6 +1,7 @@
 import React from "react";
-const THREE = require("three");
-require("../OrbitControls");
+// const THREE = require("three");
+//
+// require("../public/js/OrbitControls.js");
 
 let scene, camera, renderer, cube, url, controls;
 export default class ThreeDRender extends React.Component {
@@ -61,8 +62,8 @@ export default class ThreeDRender extends React.Component {
     animate() {
         controls.update();
         requestAnimationFrame(this.animate);
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+        // cube.rotation.x += 0.01;
+        // cube.rotation.y += 0.01;
         renderer.render(scene, camera);
     }
     render() {

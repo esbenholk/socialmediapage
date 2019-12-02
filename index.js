@@ -148,7 +148,33 @@ app.get("/welcome", function(req, res) {
         res.sendFile(__dirname + "/index.html");
     }
 });
-app.get("/user", (req, res) => {
+
+app.get("/otheruser/:id", (req, res) => {
+    console.log("otheruser request", req.params);
+    databaseActions
+        .getUserDetailsFromId(req.params.id)
+        .then(results => {
+            console.log("result", results);
+            if (results.rowCount == 0) {
+                res.json({ success: false });
+                console.log("no data for url");
+            } else {
+                res.json({
+                    success: true,
+                    otheruserName:
+                        results.rows[0].firstname +
+                        " " +
+                        results.rows[0].firstname,
+                    otheruserImage: results.rows[0].imageurl,
+                    otheruserbio: results.rows[0].bio,
+                    userId: req.session.userId
+                });
+            }
+        })
+        .catch(err => console.log(err));
+});
+
+app.get("/user.json", (req, res) => {
     console.log("req.session.userId", req.session.userId);
     databaseActions
         .getUserDetailsFromId(req.session.userId)

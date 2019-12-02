@@ -166,20 +166,36 @@ canvas {
     background: transparent;
     animation: color-change 30s infinite;
 }
-
+.focusSquare {
+    background: Transparent;
+    border: 10px red solid;
+    width: 30%;
+    height: 30%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+#line2uploaderfunciotnaility {
+    height: 5px;
+    width: 20px;
+    position: absolute;
+    left: 100%;
+    top: 20px;
+    background: red;
+}
 #uploaderfunctionality {
     display: flex;
     flex-direction: column;
-    position: fixed;
-    top: 25%;
-    right: 25%;
+    position: absolute;
+    left: 110%;
+    top: 0;
     width: 150px;
-    height: 295px;
     padding: 5px;
     background: linear-gradient(153deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
     background-size: 400% 400%;
-    animation: gradientAnimator 40s ease infinite, fadeIn 6s ease 1;
-    animation-fill-mode: forwards;
+    animation: gradientAnimator 40s ease infinite;
+    border: 1px solid red;
 }
 .uploaderfunctions {
     width: 100%;
@@ -188,20 +204,13 @@ canvas {
 }
 
 #uploaderProfilePic {
-    height: 100px;
-    width: 100px;
+    height: 100%;
+    width: 100%;
     object-fit: cover;
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    transition-duration: 4s;
-    transform-origin: top right;
-    animation: imageResizer 4s ease 1;
-    animation-fill-mode: forwards;
+    opacity: 0;
 }
+
 #profileUpdater {
-    /* position: absolute;
-    top: 200px; */
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -209,6 +218,9 @@ canvas {
     height: 100px;
     background: Transparent;
     border: none;
+}
+#profileUpdater textarea:focus {
+    outline: none;
 }
 #profileUpdater button {
     background: Transparent;
@@ -229,4 +241,39 @@ canvas {
     border: none;
     background: transparent;
     animation: color-change 30s infinite;
+}
+
+.focusSquareGreen {
+    background: Transparent;
+    border: 10px rgb(0, 255, 12) solid;
+    width: 30%;
+    height: 30%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#line2otheruserDetails {
+    width: 50px;
+    height: 5px;
+    position: absolute;
+    right: 100%;
+    top: 40%;
+    background: rgb(0, 255, 12);
+}
+#otheruserDetails {
+    position: absolute;
+    right: 120%;
+    text-align: right;
+    top: 40%;
+    width: 150px;
+    padding: 5px;
+    background: linear-gradient(153deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
+    background-size: 400% 400%;
+    animation: gradientAnimator 40s ease infinite;
+    border: 1px solid rgb(0, 255, 12);
+}
+#otheruserDetails li {
+    list-style-type: none;
 }
