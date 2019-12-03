@@ -32,23 +32,41 @@ export function OtherUsersList() {
         return null;
     }
 
-    console.log("textfieldValue", textfieldValue);
+    function openAccountMenu() {
+        if (
+            document.getElementById("otherUsersList").classList.contains("on")
+        ) {
+            document.getElementById("otherUsersList").classList.remove("on");
+            document.getElementById("profilepic").classList.remove("on");
+        } else {
+            document.getElementById("otherUsersList").classList.add("on");
+            document.getElementById("otherUsersList").classList.add("on");
+        }
+    }
 
     return (
         <div id="otherUsersList">
-            <div>
-                <h1> check out some new users</h1>
-                {users.map(user => (
-                    <li key={user.id}>
-                        {user.firstname}
+            <h1 id="otherUsersTrigger" onClick={e => openAccountMenu(e)}>
+                {" "}
+                find users{" "}
+            </h1>
+
+            <li> check out some new users or search for your friends </li>
+
+            <input onChange={e => setTextfieldValue(e.target.value)} />
+
+            {users.map(user => (
+                <li key={user.id}>
+                    <a id="otherUsersListSingleItem" href={`/user/${user.id}`}>
                         <img src={user.imageurl} id="thumbnailpic" />
-                    </li>
-                ))}
-            </div>
-            <div>
-                <h1>search for your friends</h1>
-                <input onChange={e => setTextfieldValue(e.target.value)} />
-            </div>
+                        <div id="line2otherUserListLi"> </div>
+                        <p>
+                            {" "}
+                            {user.firstname} {user.lastname}{" "}
+                        </p>
+                    </a>
+                </li>
+            ))}
         </div>
     );
 }

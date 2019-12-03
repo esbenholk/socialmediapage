@@ -193,18 +193,29 @@ app.get("/user.json", (req, res) => {
 });
 app.get("/otheruserslist", (req, res) => {
     console.log("looking for users", req.query.input);
-    databaseActions
-        .getUserDetailsFromIncSearch("")
-        .then(results => {
-            res.json({
-                users: [
-                    results.rows[results.rows.length - 1],
-                    results.rows[results.rows.length - 2],
-                    results.rows[results.rows.length - 3]
-                ]
-            });
-        })
-        .catch(err => console.log("didnt get list of users", err));
+    if (!req.query.input) {
+        databaseActions
+            .getUserDetailsFromIncSearch("")
+            .then(results => {
+                res.json({
+                    users: [
+                        results.rows[results.rows.length - 1],
+                        results.rows[results.rows.length - 2],
+                        results.rows[results.rows.length - 3]
+                    ]
+                });
+            })
+            .catch(err => console.log("didnt get list of users", err));
+    } else {
+        databaseActions
+            .getUserDetailsFromIncSearch(req.query.input)
+            .then(results => {
+                res.json({
+                    users: results.rows
+                });
+            })
+            .catch(err => console.log("didnt get list of users", err));
+    }
 });
 app.get("*", function(req, res) {
     if (!req.session.userId) {

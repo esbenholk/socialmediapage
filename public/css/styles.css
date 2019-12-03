@@ -274,12 +274,66 @@ canvas {
     animation: gradientAnimator 40s ease infinite;
     border: 1px solid rgb(0, 255, 12);
 }
+
 #otheruserDetails li {
     list-style-type: none;
+}
+
+#otherUsersTrigger {
+    position: absolute;
+    left: -40px;
+    top: 150px;
+    writing-mode: vertical-lr;
+    text-orientation: sideways;
+    font-size: 15px;
+    animation: color-change 30s infinite;
+}
+
+#otherUsersList {
+    background: rgba(255, 255, 255, 0.5);
+    position: fixed;
+    top: 5%;
+    right: 0;
+    height: 80%;
+    width: 80%;
+    padding: 10px;
+    transform: translateX(100%);
+    transition-duration: 4s;
+}
+#otherUsersList input {
+    margin: 10px;
+}
+
+#otherUsersList.on {
+    transform: translateX(0%);
+}
+#otherUsersList li {
+    list-style-type: none;
+    margin: 10px;
+    animation: color-change 30s infinite;
+}
+#otherUsersListSingleItem {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    animation: color-change 30s infinite;
+    text-decoration: none;
+}
+
+#line2otherUserListLi {
+    height: 5px;
+    width: 40px;
+    background: rgb(0, 255, 12);
+    margin-top: 20px;
+}
+#otherUsersListSingleItem p {
+    margin: 10px;
 }
 
 #thumbnailpic {
     width: 100px;
     height: 100px;
     object-fit: cover;
+    border: 5px solid rgb(0, 255, 12);
 }

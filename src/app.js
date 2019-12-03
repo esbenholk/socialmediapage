@@ -93,6 +93,8 @@ export default class App extends React.Component {
                                     />
                                 )}
                             />
+                            <Route path="/user/:id" component={OtherUser} />
+                            <OtherUsersList />
                             <User
                                 name={this.state.name}
                                 email={this.state.email}
@@ -116,18 +118,6 @@ export default class App extends React.Component {
                                     <div>
                                         <ThreeDRender
                                             imageurl={this.state.image}
-                                        />
-                                    </div>
-                                )}
-                            />
-                            <Route path="/user/:id" component={OtherUser} />
-
-                            <Route
-                                path="/findusers"
-                                render={() => (
-                                    <div>
-                                        <OtherUsersList
-                                            name={this.state.name}
                                         />
                                     </div>
                                 )}
