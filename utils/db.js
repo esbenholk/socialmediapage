@@ -19,6 +19,13 @@ module.exports.getUserDetailsFromId = function(id) {
     return database.query(`SELECT * FROM users WHERE id=$1`, [id]);
 };
 
+module.exports.getUserDetailsFromIncSearch = function(textinput) {
+    return database.query(
+        `SELECT firstname, lastname, id, imageUrl FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1`,
+        [textinput + "%"]
+    );
+};
+
 module.exports.uploadProfilePic = function(imageURL, id) {
     return database.query(
         `UPDATE users SET imageUrl=$1 WHERE id=$2 RETURNING *`,

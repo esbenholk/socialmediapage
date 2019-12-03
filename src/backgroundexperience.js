@@ -1,6 +1,6 @@
 import React from "react";
-// const THREE = require("three");
-//
+const THREE = require("three");
+import { OrbitControls } from "three-orbitcontrols-ts";
 // require("../public/js/OrbitControls.js");
 
 let scene, camera, renderer, cube, url, controls;
@@ -50,7 +50,7 @@ export default class ThreeDRender extends React.Component {
         cube = new THREE.Mesh(geometry, material, 100, 100, 100);
         scene.add(cube);
         scene.add(light);
-        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls = new OrbitControls(camera, renderer.domElement);
         camera.position.z = 10;
         document.body.appendChild(renderer.domElement);
     }
@@ -62,8 +62,8 @@ export default class ThreeDRender extends React.Component {
     animate() {
         controls.update();
         requestAnimationFrame(this.animate);
-        // cube.rotation.x += 0.01;
-        // cube.rotation.y += 0.01;
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
         renderer.render(scene, camera);
     }
     render() {

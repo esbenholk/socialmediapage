@@ -6,6 +6,7 @@ import Uploader from "./uploader";
 import ThreeDRender from "./backgroundexperience";
 import { BrowserRouter, Route } from "react-router-dom";
 import { OtherUser } from "./otheruser";
+import { OtherUsersList } from "./otherusers";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -119,7 +120,18 @@ export default class App extends React.Component {
                                     </div>
                                 )}
                             />
-                            <Route path="/user/:id" component={OtherUser} />;
+                            <Route path="/user/:id" component={OtherUser} />
+
+                            <Route
+                                path="/findusers"
+                                render={() => (
+                                    <div>
+                                        <OtherUsersList
+                                            name={this.state.name}
+                                        />
+                                    </div>
+                                )}
+                            />
                         </div>
                     </BrowserRouter>
                 </div>
