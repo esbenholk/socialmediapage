@@ -9,6 +9,15 @@ export function ProfilePic({ imageurl, toggleUpload, history }) {
     function onClick() {
         toggleUpload();
         history.push("/");
+        document.getElementById("profilepic").classList.remove("on");
+        if (document.getElementById("userprofile").classList.contains("on")) {
+            document.getElementById("userprofile").classList.remove("on");
+        }
+        if (
+            document.getElementById("otherUsersList").classList.contains("on")
+        ) {
+            document.getElementById("otherUsersList").classList.remove("on");
+        }
     }
     return (
         <div>

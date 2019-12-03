@@ -66,6 +66,9 @@ export default class ThreeDRender extends React.Component {
         cube.rotation.y += 0.01;
         renderer.render(scene, camera);
     }
+    shouldComponentUpdate(nextProps) {
+        return this.props.imageurl != nextProps.imageurl;
+    }
     render() {
         window.addEventListener("resize", this.onWindowResize, false);
 

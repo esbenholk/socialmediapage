@@ -40,7 +40,6 @@ export function OtherUsersList() {
             document.getElementById("profilepic").classList.remove("on");
         } else {
             document.getElementById("otherUsersList").classList.add("on");
-            document.getElementById("otherUsersList").classList.add("on");
         }
     }
 
