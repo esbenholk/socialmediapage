@@ -2,30 +2,25 @@ import React, { useState, useEffect } from "react";
 import axios from "./axios";
 
 export function OtherUsersList() {
-    console.log("other users list component");
     const [textfieldValue, setTextfieldValue] = useState(null);
     const [users, setUsers] = useState(null);
 
-    useEffect(() => {
+    function getUserList() {
         let cancel = false;
-        (async () => {
-            axios
-                .get("/otheruserslist", { params: { input: textfieldValue } })
-                .then(results => {
-                    console.log(
-                        "results from axios in otherusers",
-                        results.data
-                    );
-                    if (!cancel) {
-                        setUsers(results.data.users);
-                    }
-                });
 
-            console.log("users", users);
-        })();
-        return () => {
-            cancel = true;
-        };
+        axios
+            .get("/otheruserslist", { params: { input: textfieldValue } })
+            .then(results => {
+                console.log("results from axios in otherusers", results.data);
+                if (!cancel) {
+                    setUsers(results.data.users);
+                }
+                return (cancel = true);
+            })
+            .catch(err => console.log(err));
+    }
+    useEffect(() => {
+        getUserList();
     }, [textfieldValue]);
 
     if (!users) {
@@ -40,6 +35,7 @@ export function OtherUsersList() {
             document.getElementById("profilepic").classList.remove("on");
         } else {
             document.getElementById("otherUsersList").classList.add("on");
+            getUserList();
         }
     }
 

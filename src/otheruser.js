@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "./axios";
+import { FriendShipButton } from "./friendrequest";
 
 export class OtherUser extends React.Component {
     constructor(props) {
@@ -7,7 +8,6 @@ export class OtherUser extends React.Component {
         this.state = {};
     }
     componentDidMount() {
-        console.log("otheruser data", this);
         axios.get(`/otheruser/${this.props.match.params.id}`).then(results => {
             if (
                 this.props.match.params.id == results.data.userId ||
@@ -18,12 +18,9 @@ export class OtherUser extends React.Component {
                 this.setState({
                     otheruserName: results.data.otheruserName,
                     otheruserImage: results.data.otheruserImage,
-                    otheruserbio: results.data.otheruserbio
+                    otheruserbio: results.data.otheruserbio,
+                    otheruserId: results.data.userId
                 });
-                console.log(
-                    "what are the props given to otheruser",
-                    this.props
-                );
                 this.props.changeCubeImage(this.state.otheruserImage);
             }
         });
@@ -37,6 +34,9 @@ export class OtherUser extends React.Component {
                         <li> {this.state.otheruserName} </li>
                         <li> bio: {this.state.otheruserbio} </li>
                     </div>
+                    <FriendShipButton
+                        otheruserid={this.props.match.params.id}
+                    />
                 </div>
             </div>
         );

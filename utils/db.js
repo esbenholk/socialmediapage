@@ -4,6 +4,7 @@ var database = spicedPg(
         "postgres:postgres:postgres@localhost:5432/socialmediaplatform"
 );
 
+/////registration insert
 module.exports.register = function(firstname, lastname, email, hashedPassword) {
     return database.query(
         `INSERT INTO users (firstname, lastname, email, password) VALUES ($1, $2, $3, $4) RETURNING *`,
@@ -11,31 +12,59 @@ module.exports.register = function(firstname, lastname, email, hashedPassword) {
     );
 };
 
+/////getting details from assorted identifiers
 module.exports.getUserDetailsFromEmail = function(email) {
     return database.query(`SELECT * FROM users WHERE email=$1`, [email]);
 };
-
 module.exports.getUserDetailsFromId = function(id) {
     return database.query(`SELECT * FROM users WHERE id=$1`, [id]);
 };
-
 module.exports.getUserDetailsFromIncSearch = function(textinput) {
     return database.query(
-        `SELECT firstname, lastname, id, imageUrl FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1`,
+        `SELECT firstname, lastname, id, imageUrl FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1 LIMIT 3`,
         [textinput + "%"]
     );
 };
 
+/////update/upload
 module.exports.uploadProfilePic = function(imageURL, id) {
     return database.query(
         `UPDATE users SET imageUrl=$1 WHERE id=$2 RETURNING *`,
         [imageURL, id]
     );
 };
-
 module.exports.updateBio = function(bio, id) {
     return database.query(`UPDATE users SET bio=$1 WHERE id=$2 RETURNING *`, [
         bio,
         id
     ]);
+};
+
+///FriendRequest
+module.exports.checkingFriendshipStatus = function(receiver_id, sender_id) {
+    return database.query(
+        `SELECT * FROM friendships WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1)`,
+        [receiver_id, sender_id]
+    );
+};
+
+module.exports.sendFriendRequest = function(receiver_id, sender_id) {
+    return database.query(
+        `INSERT INTO friendships (receiver_id, sender_id) VALUES ($1, $2) RETURNING *`,
+        [receiver_id, sender_id]
+    );
+};
+
+module.exports.cancelFriendship = function(receiver_id, sender_id) {
+    return database.query(
+        `DELETE FROM friendships WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1)`,
+        [receiver_id, sender_id]
+    );
+};
+
+module.exports.acceptFriendship = function(receiver_id, sender_id) {
+    return database.query(
+        `UPDATE friendships SET accepted=true WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1)`,
+        [receiver_id, sender_id]
+    );
 };

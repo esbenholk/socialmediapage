@@ -8,5 +8,14 @@ CREATE TABLE users(
     password VARCHAR(255) NOT NULL,
     imageUrl VARCHAR(255),
     bio VARCHAR,
-    friends VARCHAR(255)
+    friendrequests integer[],
+    friends integer[]
+);
+
+
+CREATE TABLE friendships(
+    id SERIAL PRIMARY KEY,
+    receiver_id INT NOT NULL REFERENCES users(id),
+    sender_id INT NOT NULL REFERENCES users(id),
+    accepted BOOLEAN DEFAULT FALSE
 );

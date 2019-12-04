@@ -63,7 +63,8 @@ export default class App extends React.Component {
                     console.log("data", data);
                     this.setState({
                         image: data.image,
-                        uploaderIsVisible: !this.state.uploaderIsVisible
+                        uploaderIsVisible: !this.state.uploaderIsVisible,
+                        cubeImage: data.image
                     });
                 } else {
                     this.setState({
@@ -113,9 +114,7 @@ export default class App extends React.Component {
                                     />
                                 )}
                             />
-
                             <OtherUsersList />
-
                             <User
                                 name={this.state.name}
                                 email={this.state.email}
