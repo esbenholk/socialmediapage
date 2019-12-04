@@ -222,7 +222,7 @@ app.get("/checkforfriendship", (req, res) => {
             if (result.rowCount === 0) {
                 res.json({
                     buttonText: "send friendrequest",
-                    friendshipStatus: "not friends"
+                    friendshipStatus: ""
                 });
             }
             if (result.rowCount > 0) {

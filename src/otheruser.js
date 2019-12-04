@@ -33,10 +33,10 @@ export class OtherUser extends React.Component {
                     <div id="otheruserDetails">
                         <li> {this.state.otheruserName} </li>
                         <li> bio: {this.state.otheruserbio} </li>
+                        <FriendShipButton
+                            otheruserid={this.props.match.params.id}
+                        />
                     </div>
-                    <FriendShipButton
-                        otheruserid={this.props.match.params.id}
-                    />
                 </div>
             </div>
         );

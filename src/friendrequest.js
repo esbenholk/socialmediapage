@@ -52,9 +52,13 @@ export function FriendShipButton(otheruser) {
     }
 
     return (
-        <div>
-            <h1> {friendshipStatus} </h1>
-            <button onClick={e => buttonEffect(e)}> {buttonText} </button>
+        <div id="friendshiphandler">
+            <div className="friendshiphandler">
+                <p> {friendshipStatus} </p>
+            </div>
+            <div className="friendshiphandler">
+                <button onClick={e => buttonEffect(e)}> {buttonText} </button>
+            </div>
         </div>
     );
 }

@@ -269,7 +269,7 @@ canvas {
     top: 40%;
     width: 150px;
     padding: 5px;
-    background: linear-gradient(153deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
+    background: linear-gradient(300deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
     background-size: 400% 400%;
     animation: gradientAnimator 40s ease infinite;
     border: 1px solid rgb(0, 255, 12);
@@ -336,4 +336,22 @@ canvas {
     height: 100px;
     object-fit: cover;
     border: 5px solid rgb(0, 255, 12);
+}
+
+#friendshiphandler {
+    top: 70%;
+    width: 100%;
+    padding: 5px;
+}
+.friendshiphandler p {
+    background: linear-gradient(300deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
+    background-size: 400% 400%;
+    animation: gradientAnimator 40s ease infinite;
+    border: 1px solid rgb(0, 255, 12);
+}
+.friendshiphandler button {
+    background: linear-gradient(300deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
+    background-size: 400% 400%;
+    animation: gradientAnimator 40s ease infinite;
+    border: 1px solid rgb(0, 255, 12);
 }
