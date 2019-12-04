@@ -19,6 +19,7 @@ export default class App extends React.Component {
         this.upload = this.upload.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.updateBio = this.updateBio.bind(this);
+        this.changeCubeImage = this.changeCubeImage.bind(this);
     }
     componentDidMount() {
         this.getUserDetails();
@@ -32,7 +33,8 @@ export default class App extends React.Component {
                     name: userDetails.data.name,
                     email: userDetails.data.email,
                     image: userDetails.data.image,
-                    bio: userDetails.data.bio
+                    bio: userDetails.data.bio,
+                    cubeImage: userDetails.data.image
                 });
             })
             .catch(() => {
@@ -76,6 +78,10 @@ export default class App extends React.Component {
                 });
             });
     }
+    changeCubeImage(image) {
+        this.setState({ cubeImage: image });
+    }
+
     render() {
         if (!this.state.name) {
             return null;
@@ -90,11 +96,26 @@ export default class App extends React.Component {
                                         imageurl={this.state.image}
                                         toggleUpload={this.toggleUpload}
                                         history={props.history}
+                                        changeCubeImage={this.changeCubeImage}
                                     />
                                 )}
                             />
-                            <Route path="/user/:id" component={OtherUser} />
+
+                            <ThreeDRender imageurl={this.state.cubeImage} />
+
+                            <Route
+                                path="/user/:id"
+                                render={props => (
+                                    <OtherUser
+                                        history={props.history}
+                                        match={props.match}
+                                        changeCubeImage={this.changeCubeImage}
+                                    />
+                                )}
+                            />
+
                             <OtherUsersList />
+
                             <User
                                 name={this.state.name}
                                 email={this.state.email}
@@ -102,7 +123,7 @@ export default class App extends React.Component {
                                 toggleProfileUpdate={this.toggleProfileUpdate}
                                 updateBio={this.updateBio}
                             />
-                            <ThreeDRender imageurl={this.state.image} />
+
                             {this.state.uploaderIsVisible && (
                                 <Uploader
                                     imageurl={this.state.image}
@@ -111,17 +132,6 @@ export default class App extends React.Component {
                                     toggleUpload={this.toggleUpload}
                                 />
                             )}
-                            <Route
-                                exact
-                                path="/"
-                                render={() => (
-                                    <div>
-                                        <ThreeDRender
-                                            imageurl={this.state.image}
-                                        />
-                                    </div>
-                                )}
-                            />
                         </div>
                     </BrowserRouter>
                 </div>

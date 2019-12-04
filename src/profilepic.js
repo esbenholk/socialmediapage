@@ -1,6 +1,11 @@
 import React from "react";
 
-export function ProfilePic({ imageurl, toggleUpload, history }) {
+export function ProfilePic({
+    imageurl,
+    toggleUpload,
+    history,
+    changeCubeImage
+}) {
     console.log(history);
 
     imageurl =
@@ -8,6 +13,7 @@ export function ProfilePic({ imageurl, toggleUpload, history }) {
         "https://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg";
     function onClick() {
         toggleUpload();
+        changeCubeImage(imageurl);
         history.push("/");
         document.getElementById("profilepic").classList.remove("on");
         if (document.getElementById("userprofile").classList.contains("on")) {
