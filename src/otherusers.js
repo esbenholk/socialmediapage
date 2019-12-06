@@ -11,7 +11,6 @@ export function OtherUsersList() {
         axios
             .get("/otheruserslist", { params: { input: textfieldValue } })
             .then(results => {
-                console.log("results from axios in otherusers", results.data);
                 if (!cancel) {
                     setUsers(results.data.users);
                 }

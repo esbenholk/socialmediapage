@@ -1,3 +1,4 @@
+/* animations */
 @keyframes gradientAnimator {
     0% {
         background-position: 34% 0%;
@@ -35,6 +36,8 @@
         opacity: 1;
     }
 }
+
+/* main */
 body {
     box-sizing: border-box;
     margin: 0;
@@ -51,7 +54,6 @@ main {
     box-sizing: border-box;
     margin: 0;
 }
-
 canvas {
     position: fixed;
     top: 0;
@@ -61,6 +63,7 @@ canvas {
     z-index: -999999999;
 }
 
+/* log in and registration */
 .registrationloginbar {
     position: fixed;
     right: 0;
@@ -73,7 +76,6 @@ canvas {
     flex-direction: column;
     align-items: center;
 }
-
 .registrationlogin input {
     text-align: right;
     margin: 10px;
@@ -82,7 +84,6 @@ canvas {
     border-bottom: 2px solid hotpink;
     color: hotpink;
 }
-
 .registrationlogin button {
     border: none;
     background: transparent;
@@ -92,7 +93,6 @@ canvas {
 .registrationlogin button:hover {
     color: yellow;
 }
-
 .loginswitchregistration {
     position: absolute;
     bottom: 10px;
@@ -105,6 +105,7 @@ canvas {
     color: yellow;
 }
 
+/* userprofile, profilepic and user menu */
 #userprofile {
     position: absolute;
     top: 0;
@@ -137,7 +138,6 @@ canvas {
 #userdetails li {
     list-style-type: none;
 }
-
 #profilepic {
     height: 100px;
     width: 100px;
@@ -166,6 +166,8 @@ canvas {
     background: transparent;
     animation: color-change 30s infinite;
 }
+
+/* picture uploader */
 .focusSquare {
     background: Transparent;
     border: 10px red solid;
@@ -202,14 +204,12 @@ canvas {
     border: none;
     animation: color-change 30s infinite;
 }
-
 #uploaderProfilePic {
     height: 100%;
     width: 100%;
     object-fit: cover;
     opacity: 0;
 }
-
 #profileUpdater {
     margin-top: 5px;
     margin-bottom: 5px;
@@ -243,6 +243,7 @@ canvas {
     animation: color-change 30s infinite;
 }
 
+/* other users */
 .focusSquareGreen {
     background: Transparent;
     border: 10px rgb(0, 255, 12) solid;
@@ -253,7 +254,6 @@ canvas {
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
 }
-
 #line2otheruserDetails {
     width: 50px;
     height: 5px;
@@ -274,11 +274,9 @@ canvas {
     animation: gradientAnimator 40s ease infinite;
     border: 1px solid rgb(0, 255, 12);
 }
-
 #otheruserDetails li {
     list-style-type: none;
 }
-
 #otherUsersTrigger {
     position: absolute;
     left: -40px;
@@ -288,7 +286,6 @@ canvas {
     font-size: 15px;
     animation: color-change 30s infinite;
 }
-
 #otherUsersList {
     background: rgba(255, 255, 255, 0.5);
     position: fixed;
@@ -303,7 +300,6 @@ canvas {
 #otherUsersList input {
     margin: 10px;
 }
-
 #otherUsersList.on {
     transform: translateX(0%);
 }
@@ -320,7 +316,6 @@ canvas {
     animation: color-change 30s infinite;
     text-decoration: none;
 }
-
 #line2otherUserListLi {
     height: 5px;
     width: 40px;
@@ -330,7 +325,6 @@ canvas {
 #otherUsersListSingleItem p {
     margin: 10px;
 }
-
 #thumbnailpic {
     width: 100px;
     height: 100px;
@@ -338,6 +332,7 @@ canvas {
     border: 5px solid rgb(0, 255, 12);
 }
 
+/* friendbutton */
 #friendshiphandler {
     top: 70%;
     width: 100%;
@@ -354,4 +349,38 @@ canvas {
     background-size: 400% 400%;
     animation: gradientAnimator 40s ease infinite;
     border: 1px solid rgb(0, 255, 12);
+}
+
+#friendlist {
+    top: 0;
+    right: 0;
+    position: absolute;
+    height: 100%;
+    width: 70%;
+    border: 2px rgb(0, 255, 12) solid;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translateX(100%);
+    transition-duration: 4s;
+    padding: 10px;
+    margin: 5px;
+}
+#friendlist.on {
+    transform: translateX(0%);
+}
+#friendlistTrigger {
+    position: absolute;
+    left: -40px;
+    top: 250px;
+    writing-mode: vertical-lr;
+    text-orientation: sideways;
+    font-size: 15px;
+    animation: color-change 30s infinite;
+}
+.friendlistElement {
+    list-style-type: none;
+}
+.friendlistElement img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
 }

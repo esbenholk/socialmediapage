@@ -6,7 +6,7 @@ export default class User extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        console.log("props passed to user component", this);
+
         this.toggleProfileUpdate = this.toggleProfileUpdate.bind(this);
         this.setButtonText = this.setButtonText.bind(this);
     }

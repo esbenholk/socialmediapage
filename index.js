@@ -59,7 +59,6 @@ const uploader = multer({
 });
 
 app.post("/register", (req, res) => {
-    console.log("react axios post-req to server:", req.body);
     hash(req.body.password).then(hashedPassword => {
         databaseActions
             .register(
@@ -69,7 +68,6 @@ app.post("/register", (req, res) => {
                 hashedPassword
             )
             .then(result => {
-                console.log("registration succeful:", result);
                 req.session.userId = result.rows[0].id;
                 res.json({
                     success: true,
@@ -78,7 +76,6 @@ app.post("/register", (req, res) => {
                 });
             })
             .catch(() => {
-                console.log("hashedPassword not registered");
                 res.json({
                     error: true
                 });
@@ -91,7 +88,6 @@ app.post("/login", (req, res) => {
         .then(userDetails => {
             compare(req.body.password, userDetails.rows[0].password)
                 .then(match => {
-                    console.log(match);
                     if (match == true) {
                         req.session.userId = userDetails.rows[0].id;
                         res.json({
@@ -108,18 +104,14 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-    console.log("loggin out");
     req.session = null;
     res.json({ logout: true });
 });
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    console.log("imageupload", req.body);
     const imageURL = `${s3Url}/${req.file.filename}`;
-    console.log("this is the image url address created with aws", imageURL);
     databaseActions
         .uploadProfilePic(imageURL, req.session.userId)
         .then(results => {
-            console.log("imageurl uploaded in database", results);
             res.json({
                 success: true,
                 image: results.rows[0].imageurl
@@ -150,14 +142,11 @@ app.get("/welcome", function(req, res) {
 });
 
 app.get("/otheruser/:id", (req, res) => {
-    console.log("otheruser request", req.params);
     databaseActions
         .getUserDetailsFromId(req.params.id)
         .then(results => {
-            console.log("result", results);
             if (results.rowCount == 0) {
                 res.json({ success: false });
-                console.log("no data for url");
             } else {
                 res.json({
                     success: true,
@@ -175,11 +164,9 @@ app.get("/otheruser/:id", (req, res) => {
 });
 
 app.get("/user.json", (req, res) => {
-    console.log("req.session.userId", req.session.userId);
     databaseActions
         .getUserDetailsFromId(req.session.userId)
         .then(results => {
-            console.log("got userdetails", results.rows[0]);
             res.json({
                 success: true,
                 name:
@@ -213,12 +200,20 @@ app.get("/otheruserslist", (req, res) => {
     }
 });
 
+app.get("/friendlist", (req, res) => {
+    databaseActions
+        .getFriendList(req.session.userId)
+        .then(result => {
+            console.log("friends", result.rows);
+            res.json({ friends_unsorted: result.rows });
+        })
+        .catch(err => console.log("wrong friendlist query", err));
+});
+
 app.get("/checkforfriendship", (req, res) => {
-    console.log("id i check for friendreqeusts", req.query.otherId);
     databaseActions
         .checkingFriendshipStatus(req.query.otherId, req.session.userId)
         .then(result => {
-            console.log("checked friendship status");
             if (result.rowCount === 0) {
                 res.json({
                     buttonText: "send friendrequest",
@@ -252,33 +247,39 @@ app.get("/checkforfriendship", (req, res) => {
         .catch(err => console.log("not doing sql correctly", err));
 });
 app.post("/requestfriendship", (req, res) => {
-    console.log("requesting friendship with receiver id:", req.body.otherId);
     databaseActions
         .sendFriendRequest(req.body.otherId, req.session.userId)
         .then(result => {
+            console.log("friendshiprequest sent");
             res.json({
                 buttonText: "cancel friendrequest",
                 friendshipStatus:
                     "u asked them for friendship and they havent answered yet"
             });
         })
-        .catch(console.log("handling error in cancel friendrequest"));
+        .catch(console.log("handling error in sending friendrequest"));
 });
 app.post("/cancelfriendship", (req, res) => {
+    console.log("cancelling frienship", req.body);
     databaseActions
         .cancelFriendship(req.body.otherId, req.session.userId)
         .then(result => {
+            console.log("deleted friend/request");
             res.json({
                 buttonText: "send friendrequest",
                 friendshipStatus: "not friends"
             });
         })
-        .catch(console.log("handling error in send friendrequest"));
+        .catch(err => {
+            console.log("handling error in cancelling friendship");
+        });
 });
 app.post("/acceptfriendship", (req, res) => {
+    console.log("sending fron friendshiprequestlist", req.body);
     databaseActions
         .acceptFriendship(req.body.otherId, req.session.userId)
-        .then(result => {
+        .then(() => {
+            console.log("friend added");
             res.json({
                 buttonText: "cancel friendship",
                 friendshipStatus: "friends"

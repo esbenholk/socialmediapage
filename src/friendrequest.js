@@ -6,7 +6,6 @@ export function FriendShipButton(otheruser) {
     const [buttonText, setButtonText] = useState("");
 
     useEffect(() => {
-        console.log("otheruserId", otheruser);
         axios
             .get("/checkforfriendship", {
                 params: { otherId: otheruser.otheruserid }
@@ -18,7 +17,6 @@ export function FriendShipButton(otheruser) {
     }, []);
 
     function buttonEffect(e) {
-        console.log("button pressed", buttonText);
         if (buttonText === "send friendrequest") {
             console.log("send friend request");
             axios
@@ -32,7 +30,6 @@ export function FriendShipButton(otheruser) {
             buttonText === "cancel friendrequest" ||
             buttonText === "cancel friendship"
         ) {
-            console.log("cancel friend request");
             axios
                 .post("/cancelfriendship", { otherId: otheruser.otheruserid })
                 .then(result => {
@@ -41,7 +38,6 @@ export function FriendShipButton(otheruser) {
                 });
         }
         if (buttonText === "accept friendrequest") {
-            console.log("accept friend request");
             axios
                 .post("/acceptfriendship", { otherId: otheruser.otheruserid })
                 .then(result => {

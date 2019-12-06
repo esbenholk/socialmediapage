@@ -21,7 +21,7 @@ module.exports.getUserDetailsFromId = function(id) {
 };
 module.exports.getUserDetailsFromIncSearch = function(textinput) {
     return database.query(
-        `SELECT firstname, lastname, id, imageUrl FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1 LIMIT 3`,
+        `SELECT firstname, lastname, id, imageUrl FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1 LIMIT 10`,
         [textinput + "%"]
     );
 };
@@ -47,24 +47,34 @@ module.exports.checkingFriendshipStatus = function(receiver_id, sender_id) {
         [receiver_id, sender_id]
     );
 };
-
 module.exports.sendFriendRequest = function(receiver_id, sender_id) {
     return database.query(
         `INSERT INTO friendships (receiver_id, sender_id) VALUES ($1, $2) RETURNING *`,
         [receiver_id, sender_id]
     );
 };
-
 module.exports.cancelFriendship = function(receiver_id, sender_id) {
     return database.query(
         `DELETE FROM friendships WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1)`,
         [receiver_id, sender_id]
     );
 };
-
 module.exports.acceptFriendship = function(receiver_id, sender_id) {
     return database.query(
         `UPDATE friendships SET accepted=true WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1)`,
         [receiver_id, sender_id]
+    );
+};
+
+////friendList
+module.exports.getFriendList = function(userId) {
+    return database.query(
+        `SELECT users.id, firstname, lastname, imageUrl, accepted
+          FROM friendships
+          JOIN users
+          ON (accepted = false AND receiver_id = $1 AND sender_id = users.id)
+          OR (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+          OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)`,
+        [userId]
     );
 };

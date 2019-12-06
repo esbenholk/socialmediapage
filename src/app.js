@@ -7,6 +7,7 @@ import ThreeDRender from "./backgroundexperience";
 import { BrowserRouter, Route } from "react-router-dom";
 import { OtherUser } from "./otheruser";
 import { OtherUsersList } from "./otherusers";
+import { FriendList } from "./friends";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -28,7 +29,6 @@ export default class App extends React.Component {
         axios
             .get("/user.json")
             .then(userDetails => {
-                console.log("fetching bio", userDetails.data.bio);
                 this.setState({
                     name: userDetails.data.name,
                     email: userDetails.data.email,
@@ -101,9 +101,7 @@ export default class App extends React.Component {
                                     />
                                 )}
                             />
-
                             <ThreeDRender imageurl={this.state.cubeImage} />
-
                             <Route
                                 path="/user/:id"
                                 render={props => (
@@ -114,7 +112,19 @@ export default class App extends React.Component {
                                     />
                                 )}
                             />
+
+                            <Route
+                                render={props => (
+                                    <FriendList
+                                        imageurl={this.state.image}
+                                        toggleUpload={this.toggleUpload}
+                                        history={props.history}
+                                        changeCubeImage={this.changeCubeImage}
+                                    />
+                                )}
+                            />
                             <OtherUsersList />
+
                             <User
                                 name={this.state.name}
                                 email={this.state.email}
