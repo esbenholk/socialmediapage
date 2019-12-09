@@ -21,7 +21,7 @@ module.exports.getUserDetailsFromId = function(id) {
 };
 module.exports.getUserDetailsFromIncSearch = function(textinput) {
     return database.query(
-        `SELECT firstname, lastname, id, imageUrl FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1 LIMIT 10`,
+        `SELECT firstname, lastname, id, imageUrl FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1 LIMIT 3`,
         [textinput + "%"]
     );
 };

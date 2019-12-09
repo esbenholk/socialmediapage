@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { findFriends, addFriend, removeFriend } from "./actions";
+import { Link } from "react-router-dom";
 
 export function FriendList() {
     const dispatch = useDispatch();
@@ -46,34 +47,42 @@ export function FriendList() {
         <div id="friendlist">
             <h1 id="friendlistTrigger" onClick={e => openFriends(e)}>
                 {" "}
-                friends 😍{" "}
+                friends 😍😍😍{" "}
             </h1>
             <h1>friends </h1>
-            {friends.map(friend => (
-                <li key={friend.id} className="friendlistElement">
-                    <img src={friend.imageurl} />
-                    {friend.firstname} {friend.lastname}
-                    <button onClick={() => unfriend(friend.id)}>
-                        {" "}
-                        unfriend{" "}
-                    </button>
-                </li>
-            ))}
+            <div id="friends" className="peoplecontainer">
+                {friends.map(friend => (
+                    <li key={friend.id} className="friendlistElement">
+                        <Link to={`/user/${friend.id}`}>
+                            <img src={friend.imageurl} />{" "}
+                        </Link>
+                        {friend.firstname} {friend.lastname}
+                        <button onClick={() => unfriend(friend.id)}>
+                            {" "}
+                            unfriend{" "}
+                        </button>
+                    </li>
+                ))}
+            </div>
             <h1>people who want to be your friend </h1>
-            {request.map(wannabe => (
-                <li key={wannabe.id} className="friendlistElement">
-                    <img src={wannabe.imageurl} />
-                    {wannabe.firstname} {wannabe.lastname} {wannabe.id}
-                    <button onClick={e => befriend(wannabe.id)}>
-                        {" "}
-                        befriend{" "}
-                    </button>
-                    <button onClick={e => unfriend(wannabe.id)}>
-                        {" "}
-                        delete request{" "}
-                    </button>
-                </li>
-            ))}
+            <div id="requests" className="peoplecontainer">
+                {request.map(wannabe => (
+                    <li key={wannabe.id} className="friendlistElement">
+                        <Link to={`/user/:${wannabe.id}`}>
+                            <img src={wannabe.imageurl} />{" "}
+                        </Link>
+                        {wannabe.firstname} {wannabe.lastname} {wannabe.id}
+                        <button onClick={e => befriend(wannabe.id)}>
+                            {" "}
+                            befriend{" "}
+                        </button>
+                        <button onClick={e => unfriend(wannabe.id)}>
+                            {" "}
+                            delete request{" "}
+                        </button>
+                    </li>
+                ))}
+            </div>
         </div>
     );
 }

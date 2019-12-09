@@ -7,6 +7,15 @@ import { createStore, applyMiddleware } from "redux";
 import reduxPromise from "redux-promise";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "./reducers";
+import * as io from "socket.io-client";
+
+const socket = io.connect();
+socket.on("hello", data => {
+    console.log("data from io connection", data);
+    socket.emit("rbay", { message: "good to be in contact" });
+});
+
+socket.on("someoneNew", console.log);
 
 const store = createStore(
     reducer,

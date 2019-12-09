@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
+import { Link } from "react-router-dom";
 
 export function OtherUsersList() {
     const [textfieldValue, setTextfieldValue] = useState(null);
@@ -26,7 +27,7 @@ export function OtherUsersList() {
         return null;
     }
 
-    function openAccountMenu() {
+    function openOtherUsers() {
         if (
             document.getElementById("otherUsersList").classList.contains("on")
         ) {
@@ -40,9 +41,9 @@ export function OtherUsersList() {
 
     return (
         <div id="otherUsersList">
-            <h1 id="otherUsersTrigger" onClick={e => openAccountMenu(e)}>
+            <h1 id="otherUsersTrigger" onClick={e => openOtherUsers(e)}>
                 {" "}
-                find users{" "}
+                other users 🔥🔥🔥{" "}
             </h1>
 
             <li> check out some new users or search for your friends </li>
@@ -50,16 +51,20 @@ export function OtherUsersList() {
             <input onChange={e => setTextfieldValue(e.target.value)} />
 
             {users.map(user => (
-                <li key={user.id}>
-                    <a id="otherUsersListSingleItem" href={`/user/${user.id}`}>
-                        <img src={user.imageurl} id="thumbnailpic" />
-                        <div id="line2otherUserListLi"> </div>
-                        <p>
-                            {" "}
-                            {user.firstname} {user.lastname}{" "}
-                        </p>
-                    </a>
-                </li>
+                <div key={user.id} onClick={e => openOtherUsers(e)}>
+                    <Link to={`/user/${user.id}`}>
+                        <li id="otherUsersListscroll">
+                            <div id="otherUsersListSingleItem">
+                                <img src={user.imageurl} id="thumbnailpic" />
+                                <div id="line2otherUserListLi"> </div>
+                                <p>
+                                    {" "}
+                                    {user.firstname} {user.lastname}{" "}
+                                </p>
+                            </div>
+                        </li>
+                    </Link>
+                </div>
             ))}
         </div>
     );

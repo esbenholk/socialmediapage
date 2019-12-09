@@ -55,7 +55,7 @@ export default class User extends React.Component {
                         onClick={e => this.openAccountMenu(e)}
                     >
                         {" "}
-                        profile{" "}
+                        profile 🌈🌈🌈{" "}
                     </h1>
                     <div id="userdetails">
                         <li>{this.props.name} </li>

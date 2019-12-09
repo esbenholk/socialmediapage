@@ -8,6 +8,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { OtherUser } from "./otheruser";
 import { OtherUsersList } from "./otherusers";
 import { FriendList } from "./friends";
+import { Link } from "react-router-dom";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -106,6 +107,7 @@ export default class App extends React.Component {
                                 path="/user/:id"
                                 render={props => (
                                     <OtherUser
+                                        key={props.match.url}
                                         history={props.history}
                                         match={props.match}
                                         changeCubeImage={this.changeCubeImage}

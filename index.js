@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./utils/bcrypt");
@@ -153,7 +155,7 @@ app.get("/otheruser/:id", (req, res) => {
                     otheruserName:
                         results.rows[0].firstname +
                         " " +
-                        results.rows[0].firstname,
+                        results.rows[0].lastname,
                     otheruserImage: results.rows[0].imageurl,
                     otheruserbio: results.rows[0].bio,
                     userId: req.session.userId
@@ -204,7 +206,6 @@ app.get("/friendlist", (req, res) => {
     databaseActions
         .getFriendList(req.session.userId)
         .then(result => {
-            console.log("friends", result.rows);
             res.json({ friends_unsorted: result.rows });
         })
         .catch(err => console.log("wrong friendlist query", err));
@@ -260,7 +261,6 @@ app.post("/requestfriendship", (req, res) => {
         .catch(console.log("handling error in sending friendrequest"));
 });
 app.post("/cancelfriendship", (req, res) => {
-    console.log("cancelling frienship", req.body);
     databaseActions
         .cancelFriendship(req.body.otherId, req.session.userId)
         .then(result => {
@@ -275,7 +275,6 @@ app.post("/cancelfriendship", (req, res) => {
         });
 });
 app.post("/acceptfriendship", (req, res) => {
-    console.log("sending fron friendshiprequestlist", req.body);
     databaseActions
         .acceptFriendship(req.body.otherId, req.session.userId)
         .then(() => {
@@ -296,6 +295,19 @@ app.get("*", function(req, res) {
     }
 });
 
-app.listen(8080, function() {
+server.listen(8080, function() {
     console.log("I'm listening.");
+});
+
+io.on("connection", socket => {
+    console.log("socket with the id:" + socket.id + "just connected");
+
+    socket.emit("hello", { message: "hej" });
+
+    io.sockets.emit("someoneNew", { id: socket.id });
+    //
+    // io.sockets.sockets
+    socket.on("disconnect", () => {
+        console.log("socket with the id:" + socket.id + "just connected");
+    });
 });
