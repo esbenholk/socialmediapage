@@ -36,9 +36,10 @@ export function chatMessages(messages) {
     };
 }
 
-export function chatMessage(message) {
+export function chatMessage(newchat) {
+    console.log("new chat in actions.js", newchat);
     return {
         type: "new_chatmessage",
-        message: message
+        messages: newchat
     };
 }

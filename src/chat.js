@@ -5,15 +5,18 @@ import { socket } from "./sockets";
 import { useSelector } from "react-redux";
 
 export function Chat() {
-    const chatMessages = useSelector(state => state && state.chatmessages);
-    console.log("chatmessages", chatmessages);
+    const chatMessages = useSelector(state => {
+        return state && state.messages;
+    });
 
     const messagesDiv = useRef();
     useEffect(() => {
-        console.log(messagesDiv);
-        messagesDiv.current.scrollTop =
-            messagesDiv.current.scrollHeight - messagesDiv.current.clientHeight;
-    }, []);
+        if (chatMessages) {
+            messagesDiv.current.scrollTop =
+                messagesDiv.current.scrollHeight -
+                messagesDiv.current.clientHeight;
+        }
+    }, [chatMessages]);
 
     function keycheck(e) {
         if (e.key == "Enter") {
@@ -22,15 +25,31 @@ export function Chat() {
             e.target.value = "";
         }
     }
+    if (!chatMessages) {
+        return null;
+    }
     return (
         <div className="chat">
-            <h1> CHAT </h1>
-            <div className="messages" ref={messagesDiv}></div>
-            {chatmessages.map(chatmessage => ()
-            <textarea
-                placeholder="write in the shared chat"
-                onKeyUp={e => keycheck(e)}
-            ></textarea>
+            <div className="messages" ref={messagesDiv}>
+                {chatMessages.map(chatmessage => (
+                    <div key={chatmessage.chatid} id="singlemessages">
+                        {" "}
+                        <img src={chatmessage.imageurl} id="chatimage" />
+                        <div>
+                            <p id="chatname">
+                                {" "}
+                                {chatmessage.firstname} {chatmessage.lastname}{" "}
+                            </p>{" "}
+                            <p> {chatmessage.chatmessages} </p>{" "}
+                        </div>
+                    </div>
+                ))}
+                <textarea
+                    id="chatinput"
+                    placeholder="write in the shared chat"
+                    onKeyUp={e => keycheck(e)}
+                ></textarea>
+            </div>
         </div>
     );
 }

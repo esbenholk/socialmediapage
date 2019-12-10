@@ -10,15 +10,11 @@ export const init = store => {
 
         socket.on("chatMessages", information => {
             store.dispatch(chatMessages(information));
-            console.log("have the entire array of messages", information);
         });
 
         socket.on("chatMessage", newchat => {
+            console.log("sockets new message", newchat);
             store.dispatch(chatMessage(newchat));
-            console.log(
-                "updated chat messaages received on front end",
-                newchat
-            );
         });
     }
 };

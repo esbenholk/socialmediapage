@@ -30,20 +30,18 @@ export default function(state = {}, action) {
     }
 
     if (action.type == "latest_chatmessages") {
-        console.log("have latest chat messages", action.messages);
         state = {
             ...state,
             messages: action.messages
         };
     }
     if (action.type == "new_chatmessage") {
-        console.log("state", state);
-        console.log("state.messages", state.messages);
-        console.log("received fresh chat", action.message);
+        console.log("");
+        console.log("this is the added chat", action.messages);
 
         state = {
             ...state,
-            messages: [...state.messages, action.message]
+            messages: state.messages.concat(action.messages.message)
         };
     }
 

@@ -82,7 +82,7 @@ module.exports.getFriendList = function(userId) {
 //chat
 module.exports.getMessages = function() {
     return database.query(
-        `SELECT * FROM chatmessages ORDER BY id DESC LIMIT 10`
+        `SELECT * FROM chatmessages JOIN users ON (users.id = chatmessages.comment_id) ORDER BY chatmessages.chatid DESC LIMIT 10`
     );
 };
 

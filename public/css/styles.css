@@ -112,6 +112,7 @@ canvas {
     top: 0;
     right: 0;
     height: 100%;
+    position: fixed;
     width: 130px;
     background: rgba(255, 255, 255, 0.5);
     transform: translateX(100%);
@@ -406,7 +407,35 @@ canvas {
     animation: color-change 30s infinite;
 }
 
-/* #messages {
-    height: 500px;
+.messages {
+    position: fixed;
+    top: 200px;
+    left: 20px;
+    height: 300px;
+    width: 300px;
     overflow-y: scroll;
-} */
+}
+#singlemessages {
+    postion: relative;
+    background: rgba(255, 255, 255, 0.5);
+    margin-left: 20px;
+    display: flex;
+    flex-direction: row;
+}
+#chatimage {
+    width: 80px;
+    height: 80px;
+}
+#chatname {
+    font-size: 10px;
+    color: grey;
+}
+
+#chatinput {
+    postion: relative;
+    width: 300px;
+    background: linear-gradient(300deg, #c100ff, #fdc1ff, #00ffc4, #e7ff00);
+    background-size: 400% 400%;
+    animation: gradientAnimator 40s ease infinite;
+    border: 1px solid rgb(0, 255, 12);
+}

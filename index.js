@@ -302,25 +302,27 @@ io.on("connection", function(socket) {
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
-    console.log("socket with the id:" + socket.id + "just connected");
     let commentId = socket.request.session.userId;
     databaseActions
         .getMessages()
         .then(result => {
-            console.log("runs getting messages", result.rows);
-            io.sockets.emit("chatMessages", { messages: result.rows });
+            io.sockets.emit("chatMessages", {
+                messages: result.rows
+            });
         })
         .catch("didnt find chatmessages in getMessages");
 
     socket.on("wroteChatMessage", msg => {
-        console.log(commentId);
-        Promise.all([
-            databaseActions.getUserDetailsFromId(commentId),
-            databaseActions.storeMessages(msg, commentId)
-        ])
-            .then(result => {
-                io.sockets.emit("chatMessage", {
-                    message: [...result[1].rows, result[0].rows]
+        databaseActions
+            .storeMessages(msg.message, commentId)
+            .then(() => {
+                console.log("stored message");
+                databaseActions.getMessages().then(result => {
+                    let message = result.rows.shift();
+                    console.log("message in server", message);
+                    io.sockets.emit("chatMessage", {
+                        message: message
+                    });
                 });
             })
             .catch(err => console.log(err));

@@ -14,7 +14,6 @@ CREATE TABLE users(
     friends integer[]
 );
 
-
 CREATE TABLE friendships(
     id SERIAL PRIMARY KEY,
     receiver_id INT NOT NULL REFERENCES users(id),
@@ -23,7 +22,7 @@ CREATE TABLE friendships(
 );
 
 CREATE TABLE chatmessages(
-    id SERIAL PRIMARY KEY,
+    chatid SERIAL PRIMARY KEY,
     comment_id INT NOT NULL REFERENCES users(id),
     chatmessages VARCHAR NOT NULL
 )
