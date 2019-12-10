@@ -2,7 +2,6 @@
 
 export default function(state = {}, action) {
     if (action.type == "get_friends_and_requests") {
-        console.log("look for friends and requests", state, action);
         state = {
             ...state,
             friends: action.friends
@@ -29,5 +28,24 @@ export default function(state = {}, action) {
             )
         };
     }
+
+    if (action.type == "latest_chatmessages") {
+        console.log("have latest chat messages", action.messages);
+        state = {
+            ...state,
+            messages: action.messages
+        };
+    }
+    if (action.type == "new_chatmessage") {
+        console.log("state", state);
+        console.log("state.messages", state.messages);
+        console.log("received fresh chat", action.message);
+
+        state = {
+            ...state,
+            messages: [...state.messages, action.message]
+        };
+    }
+
     return state;
 }

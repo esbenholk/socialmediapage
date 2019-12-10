@@ -46,7 +46,7 @@ export function OtherUsersList() {
                 other users 🔥🔥🔥{" "}
             </h1>
 
-            <li> check out some new users or search for your friends </li>
+            <li> check out some new usersode or search for your friends </li>
 
             <input onChange={e => setTextfieldValue(e.target.value)} />
 

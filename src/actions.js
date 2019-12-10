@@ -28,3 +28,17 @@ export async function removeFriend(otheruser) {
         killfriend: otheruser
     };
 }
+
+export function chatMessages(messages) {
+    return {
+        type: "latest_chatmessages",
+        messages: messages.messages
+    };
+}
+
+export function chatMessage(message) {
+    return {
+        type: "new_chatmessage",
+        message: message
+    };
+}

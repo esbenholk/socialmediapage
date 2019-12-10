@@ -8,14 +8,8 @@ import reduxPromise from "redux-promise";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "./reducers";
 import * as io from "socket.io-client";
-
+import { init } from "./sockets";
 const socket = io.connect();
-socket.on("hello", data => {
-    console.log("data from io connection", data);
-    socket.emit("rbay", { message: "good to be in contact" });
-});
-
-socket.on("someoneNew", console.log);
 
 const store = createStore(
     reducer,
@@ -25,6 +19,7 @@ const store = createStore(
 let element = <Welcome />;
 
 if (location.pathname != "/welcome") {
+    init(store);
     element = (
         <Provider store={store}>
             <App />

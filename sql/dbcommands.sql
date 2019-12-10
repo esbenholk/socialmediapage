@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS friendships;
+DROP TABLE IF EXISTS chatmessages;
 
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
@@ -19,3 +21,9 @@ CREATE TABLE friendships(
     sender_id INT NOT NULL REFERENCES users(id),
     accepted BOOLEAN DEFAULT FALSE
 );
+
+CREATE TABLE chatmessages(
+    id SERIAL PRIMARY KEY,
+    comment_id INT NOT NULL REFERENCES users(id),
+    chatmessages VARCHAR NOT NULL
+)

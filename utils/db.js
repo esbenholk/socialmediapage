@@ -78,3 +78,17 @@ module.exports.getFriendList = function(userId) {
         [userId]
     );
 };
+
+//chat
+module.exports.getMessages = function() {
+    return database.query(
+        `SELECT * FROM chatmessages ORDER BY id DESC LIMIT 10`
+    );
+};
+
+module.exports.storeMessages = function(msg, commentId) {
+    return database.query(
+        `INSERT INTO chatmessages (comment_id, chatmessages) VALUES ($2, $1) RETURNING *`,
+        [msg, commentId]
+    );
+};

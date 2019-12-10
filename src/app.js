@@ -8,7 +8,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { OtherUser } from "./otheruser";
 import { OtherUsersList } from "./otherusers";
 import { FriendList } from "./friends";
-import { Link } from "react-router-dom";
+
+import { Chat } from "./chat";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -126,7 +127,7 @@ export default class App extends React.Component {
                                 )}
                             />
                             <OtherUsersList />
-
+                            <Chat />
                             <User
                                 name={this.state.name}
                                 email={this.state.email}

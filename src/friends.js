@@ -12,7 +12,6 @@ export function FriendList() {
         );
     });
     const request = useSelector(state => {
-        console.log("looking at state through useSelector", state);
         return (
             state.friends &&
             state.friends.filter(person => person.accepted == false)

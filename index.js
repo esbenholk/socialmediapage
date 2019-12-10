@@ -30,12 +30,16 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-app.use(
-    cookieSession({
-        secret: `jenniferAniston`,
-        maxAge: 1000 * 60 * 60 * 24 * 14
-    })
-);
+////middleware, csurf, multer(file-uploading)
+const cookieSessionMiddleware = cookieSession({
+    secret: `jenniferAnistonisnot the code`,
+    maxAge: 1000 * 60 * 60 * 24 * 90
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 app.use(csurf());
 app.use(function(req, res, next) {
     res.cookie("customCSURFtoken", req.csrfToken());
@@ -52,7 +56,6 @@ const diskStorage = multer.diskStorage({
         });
     }
 });
-
 const uploader = multer({
     storage: diskStorage,
     limits: {
@@ -60,6 +63,7 @@ const uploader = multer({
     }
 });
 
+///login
 app.post("/register", (req, res) => {
     hash(req.body.password).then(hashedPassword => {
         databaseActions
@@ -104,7 +108,6 @@ app.post("/login", (req, res) => {
                 .catch(err => console.log("fail in compare"));
         });
 });
-
 app.post("/logout", (req, res) => {
     req.session = null;
     res.json({ logout: true });
@@ -121,7 +124,6 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         })
         .catch("imageurl not uploaded to database");
 });
-
 app.post("/updatebio", (req, res) => {
     databaseActions
         .updateBio(req.body.bio, req.session.userId)
@@ -142,7 +144,6 @@ app.get("/welcome", function(req, res) {
         res.sendFile(__dirname + "/index.html");
     }
 });
-
 app.get("/otheruser/:id", (req, res) => {
     databaseActions
         .getUserDetailsFromId(req.params.id)
@@ -164,7 +165,6 @@ app.get("/otheruser/:id", (req, res) => {
         })
         .catch(err => console.log(err));
 });
-
 app.get("/user.json", (req, res) => {
     databaseActions
         .getUserDetailsFromId(req.session.userId)
@@ -210,7 +210,6 @@ app.get("/friendlist", (req, res) => {
         })
         .catch(err => console.log("wrong friendlist query", err));
 });
-
 app.get("/checkforfriendship", (req, res) => {
     databaseActions
         .checkingFriendshipStatus(req.query.otherId, req.session.userId)
@@ -299,15 +298,31 @@ server.listen(8080, function() {
     console.log("I'm listening.");
 });
 
-io.on("connection", socket => {
+io.on("connection", function(socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
     console.log("socket with the id:" + socket.id + "just connected");
+    let commentId = socket.request.session.userId;
+    databaseActions
+        .getMessages()
+        .then(result => {
+            console.log("runs getting messages", result.rows);
+            io.sockets.emit("chatMessages", { messages: result.rows });
+        })
+        .catch("didnt find chatmessages in getMessages");
 
-    socket.emit("hello", { message: "hej" });
-
-    io.sockets.emit("someoneNew", { id: socket.id });
-    //
-    // io.sockets.sockets
-    socket.on("disconnect", () => {
-        console.log("socket with the id:" + socket.id + "just connected");
+    socket.on("wroteChatMessage", msg => {
+        console.log(commentId);
+        Promise.all([
+            databaseActions.getUserDetailsFromId(commentId),
+            databaseActions.storeMessages(msg, commentId)
+        ])
+            .then(result => {
+                io.sockets.emit("chatMessage", {
+                    message: [...result[1].rows, result[0].rows]
+                });
+            })
+            .catch(err => console.log(err));
     });
 });
