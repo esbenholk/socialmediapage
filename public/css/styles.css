@@ -409,16 +409,15 @@ canvas {
 
 .messages {
     position: fixed;
-    top: 200px;
+    top: 20px;
     left: 20px;
-    height: 300px;
+    height: 200px;
     width: 300px;
     overflow-y: scroll;
 }
 #singlemessages {
     postion: relative;
     background: rgba(255, 255, 255, 0.5);
-    margin-left: 20px;
     display: flex;
     flex-direction: row;
 }
