@@ -2,4 +2,4 @@
 
 social media page created for use of redux, socket, react and threejs
 
-<img src="/socialmediascreenrecording.gif"></img>
+<img src="/public/socialmediascreenrecording.gif"></img>
